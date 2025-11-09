@@ -39,9 +39,9 @@ l = [12, 45, 12, 999, 10, 8, 76, 20, 10, 10, 7, 70, 17]
 
 def mean_function(x):
     total_sum = 0
-    for current_item in l:
+    for current_item in x:
       total_sum = total_sum + current_item
-    number_of_terms = len(l)
+    number_of_terms = len(x)
     mean_value = total_sum/number_of_terms
     return mean_value
 
@@ -54,20 +54,26 @@ print(f"Mean of {l} is : {result:.2f}")
 l = [12, 45, 12, 999, 10, 8, 76, 20, 10, 10, 7, 70, 17]
 
 def bubble_sort(x):
-    for i in range(len(x)):
-        for j in range(0, len(x) -1 -i):
-            if x[j] > x[j + 1]:
-                x[j], x[j + 1] = x[j + 1], x[j]
-            
-    return(x)
+    number_array = x.copy()
+    number_of_term = len(number_array)
+    for i in range(number_of_term):
+        swapped = False
+        for j in range(0, len(number_array) -1 -i):
+            if number_array[j] > number_array[j + 1]:
+                number_array[j], number_array[j + 1] = number_array[j + 1], number_array[j]
+                swapped = True
+        if not swapped: 
+            break
+    return(number_array)
 
-def median_function(x): 
-    values_list = list(set(x))
-    item_index = len(values_list)/2 
-    median_value = 0
+def median_function(values_list): 
+    values_list = bubble_sort(values_list.copy())
     number_of_terms = len(values_list)
-    if len(values_list) % 2 == 0:
-       median_value = (values_list[number_of_terms // 2 - 1] + x[number_of_terms // 2])/2
+    if number_of_terms == 0:
+        return None
+    
+    if number_of_terms % 2 == 0:
+       median_value = (values_list[number_of_terms // 2 - 1] + values_list[number_of_terms // 2])/2
     else: 
        median_value = values_list[number_of_terms // 2]
     
@@ -88,15 +94,15 @@ l = [12, 45, 12, 999, 10, 8, 76, 20, 10, 10, 7, 70, 17]
 def standard_dev_function(x):
     intermediate_value = 0
     count = 0
-    average_value = mean_function(l)
-    for i, current_value in enumerate(x):
+    average_value = 0
+    for _, current_value in enumerate(x):
         count = count + 1
         delta_1 = current_value - average_value
-        average_value = average_value + delta_1 / count
+        average_value = average_value + (delta_1 / count)
         delta_2 = current_value - average_value
-        intermediate_value = intermediate_value + delta_1 * delta_2
+        intermediate_value = intermediate_value + (delta_1 * delta_2)
     
-    if count < 0: 
+    if count < 2: 
         return 0
     
     variance = intermediate_value / count
